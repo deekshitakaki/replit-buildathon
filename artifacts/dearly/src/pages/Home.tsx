@@ -28,8 +28,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-serif text-foreground leading-tight mb-6">
-            Write something that <br/>
-            <span className="italic text-primary font-dancing text-6xl md:text-8xl pr-4">feels like you</span>
+            Write something that <span className="italic text-primary font-dancing text-6xl md:text-8xl pr-4">feels like you</span>
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-lg mx-auto font-light tracking-wide leading-relaxed">

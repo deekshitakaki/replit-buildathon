@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sacramento&family=Satisfy&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-dancing: 'Dancing Script', cursive;
+  --font-sacramento: 'Sacramento', cursive;
+  --font-satisfy: 'Satisfy', cursive;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-card: hsl(var(--card));
+  --color-paper: hsl(var(--paper));
+  
+  /* Background specific colors */
+  --color-bg-cream: #fdf8f2;
+  --color-bg-blush: #fff0f3;
+  --color-bg-lavender: #f5f0ff;
+  --color-bg-vintage: #fdf6e3;
+  --color-bg-sage: #f0f7f0;
+}
+
+:root {
+  --background: 36 60% 98%;      /* Very soft cream */
+  --foreground: 20 25% 25%;      /* Deep warm gray/brown */
+  --primary: 340 60% 75%;        /* Soft blush pink */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 30% 94%;       /* Slightly darker cream for panels */
+  --secondary-foreground: 20 25% 30%;
+  --muted: 36 20% 90%;
+  --muted-foreground: 20 15% 50%;
+  --border: 30 20% 88%;
+  --card: 0 0% 100%;
+  --paper: 36 60% 99%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+    background-image: radial-gradient(circle at center, rgba(200, 180, 180, 0.03) 0%, transparent 100%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    @apply font-normal tracking-tight;
+  }
+}
+
+/* Paper Background Styles */
+.paper-bg-cream {
+  background-color: var(--color-bg-cream);
+}
+
+.paper-bg-blush {
+  background-color: var(--color-bg-blush);
+}
+
+.paper-bg-lavender {
+  background-color: var(--color-bg-lavender);
+}
+
+.paper-bg-vintage {
+  background-color: var(--color-bg-vintage);
+  /* Subtle sepia noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.paper-bg-floral {
+  background-color: var(--color-bg-cream);
+  background-image: radial-gradient(hsl(340 50% 85%) 1.5px, transparent 1.5px), radial-gradient(hsl(340 50% 85%) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  opacity: 0.9;
+}
+
+.paper-bg-sage {
+  background-color: var(--color-bg-sage);
+}
+
+/* Custom Scrollbar for panels */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Hide scrollbar for the textarea to keep it clean */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

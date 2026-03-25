@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Dearly"
+version = "1.0.0"
+id = "artifacts/dearly"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25241
+
+[services.development]
+run = "pnpm --filter @workspace/dearly run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dearly", "run", "build" ]
+publicDir = "artifacts/dearly/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25241"
+BASE_PATH = "/"

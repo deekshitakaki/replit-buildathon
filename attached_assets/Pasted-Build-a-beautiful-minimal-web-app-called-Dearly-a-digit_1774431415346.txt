@@ -1,0 +1,108 @@
+Build a beautiful, minimal web app called “Dearly” — a digital letter experience inspired by DigiBouquet.
+
+CORE IDEA:
+This is not a typical editor. It should feel emotional, calm, and interactive — like creating and sending a digital memory.
+
+STYLE & AESTHETIC:
+- Soft pastel color palette (cream, blush pink, lavender)
+- Lots of whitespace, minimal UI
+- Smooth animations (fade, scale, gentle transitions)
+- Clean, modern, aesthetic design (like DigiBouquet)
+- No clutter, no dashboards, no complex menus
+
+FONT:
+- Elegant serif for headings (Playfair Display)
+- Clean sans-serif for UI (Inter)
+- Handwritten font for letter text (Dancing Script or Sacramento)
+
+----------------------------------------
+
+FEATURES:
+
+1. LANDING PAGE
+- Very minimal
+- Centered text:
+  “write something that feels like you”
+- One button: “Start writing”
+- Soft background, subtle gradient
+
+----------------------------------------
+
+2. LETTER CREATION EXPERIENCE (MAIN SCREEN)
+
+- A centered “paper” canvas (like a letter sheet)
+- User can click and type directly on the paper
+- Paper has subtle texture and soft shadow
+
+LEFT or FLOATING PANEL:
+- Background selector (pastel, floral, vintage paper)
+- Font selector (handwritten styles)
+- Sticker panel (flowers, hearts, cute elements)
+
+INTERACTIONS:
+- Clicking a sticker adds it to the paper
+- Stickers can be dragged and positioned
+- Smooth drag animations
+
+----------------------------------------
+
+3. “MAKE IT BEAUTIFUL ✨” BUTTON
+
+- When clicked:
+  - Automatically adds a few stickers
+  - Adjusts spacing slightly
+  - Enhances layout visually
+
+(Keep logic simple — does not need real AI)
+
+----------------------------------------
+
+4. PREVIEW / SHARE MODE
+
+- Full screen clean view of the letter
+- No editing UI visible
+
+ADD A “REVEAL EXPERIENCE”:
+- Paper fades in
+- Text appears gradually (typewriter or fade effect)
+- Very smooth and emotional
+
+----------------------------------------
+
+5. EXPORT
+
+- Button to download as PNG
+- Button to generate shareable link (optional if easy)
+
+----------------------------------------
+
+TECH STACK:
+
+- React (Vite or Next.js)
+- Tailwind CSS for styling
+- Use simple state management (no heavy backend)
+- Use HTML canvas or draggable divs for stickers
+- Use libraries if needed (like react-draggable or fabric.js)
+
+----------------------------------------
+
+IMPORTANT UX RULES:
+
+- No login system
+- No database required
+- No complex forms
+- Everything should feel instant and responsive
+
+----------------------------------------
+
+GOAL:
+
+The app should feel like:
+“sending a piece of emotion, not just text”
+
+Focus heavily on:
+- Visual polish
+- Smooth interactions
+- Emotional experience
+
+Keep it simple but BEAUTIFUL.

@@ -1,0 +1,200 @@
+Upgrade my existing project "Dearly" into a premium, emotional, and highly polished digital letter experience.
+
+IMPORTANT:
+- Do NOT rebuild from scratch
+- Improve the current structure and UI
+- Focus on UX, smoothness, and visual quality
+
+--------------------------------------------------
+
+🎯 CORE GOAL
+
+Transform this app from a basic editor into:
+"An emotional experience where users create and share beautiful digital letters"
+
+It should feel magical, soft, and memorable — not like a tool.
+
+--------------------------------------------------
+
+🧩 1. EMOTIONAL ENTRY SCREEN (NEW)
+
+Before the editor, add a minimal landing screen:
+
+Centered text:
+"write something that feels like you"
+
+Below that, 4 soft buttons:
+- Love 💖
+- Birthday 🎂
+- Apology 🫂
+- Gratitude 🌸
+
+When user selects one:
+- Open editor with pre-selected theme (colors + background)
+
+--------------------------------------------------
+
+📄 2. PAPER EXPERIENCE (MAJOR UI FIX)
+
+Convert the editor into a realistic letter:
+
+- Centered paper card
+- Soft pastel background
+- Rounded corners (20px)
+- Subtle shadow
+- Light texture or gradient
+
+Make it feel like holding a real letter.
+
+--------------------------------------------------
+
+✍️ 3. TYPOGRAPHY
+
+- Use:
+  - Playfair Display (headings)
+  - Inter (UI)
+  - Dancing Script / Sacramento (letter text)
+
+- Improve spacing:
+  - Line height
+  - Padding
+  - Margins like real letters
+
+--------------------------------------------------
+
+🌸 4. STICKER SYSTEM (FULL UPGRADE)
+
+- Add 25+ pastel stickers
+- Categories:
+  1. Flowers (roses, tulips, daisies)
+  2. Hearts
+  3. Sparkles
+  4. Butterflies / cute elements
+
+- Fix drag issues COMPLETELY:
+  - Use react-draggable
+  - Parent container must be position: relative
+  - No lag or offset
+  - Smooth drag performance
+
+- Add interactions:
+  - cursor: grab / grabbing
+  - Slight scale on hover
+  - Smooth movement
+
+--------------------------------------------------
+
+📄 5. PAPER BACKGROUND OPTIONS
+
+Add selectable themes:
+
+- Plain pastel
+- Floral
+- Vintage (light brown texture)
+- Grid / journal
+- Soft gradient
+
+User can switch backgrounds easily
+
+--------------------------------------------------
+
+✨ 6. “MAKE IT BEAUTIFUL ✨” (ENHANCE)
+
+When clicked:
+- Automatically add 2–4 stickers
+- Position them aesthetically
+- Slightly adjust layout
+
+Add smooth animation when applied
+
+--------------------------------------------------
+
+📤 7. PNG EXPORT (FIX PROPERLY)
+
+- Use html-to-image
+- Export ONLY the letter (no UI)
+
+Ensure:
+- High resolution
+- Fonts render correctly
+- Stickers included
+
+Add loading state:
+"Preparing your letter... ✨"
+
+--------------------------------------------------
+
+🔗 8. SHAREABLE LINK (IMPORTANT)
+
+Implement URL-based sharing:
+
+- Encode:
+  - text
+  - stickers (positions)
+  - theme
+
+- Generate shareable link:
+  /view?data=...
+
+- Decode on load
+
+--------------------------------------------------
+
+🎬 9. REVEAL MODE (CRITICAL - WOW FACTOR)
+
+When opening a shared link:
+
+1. Start with blank screen
+2. Paper fades in smoothly
+3. Text appears gradually (typewriter or fade)
+4. Stickers appear softly
+
+No editing UI should be visible.
+
+This must feel emotional and magical.
+
+--------------------------------------------------
+
+⚡ 10. MICRO-INTERACTIONS
+
+Add:
+- Button hover effects
+- Smooth transitions between screens
+- Sticker drop animation
+- Soft fade animations
+
+Everything should feel fluid and responsive
+
+--------------------------------------------------
+
+🎨 11. DESIGN SYSTEM
+
+Use soft pastel palette:
+- #FFF8F5 (cream)
+- #FADADD (pink)
+- #E6E6FA (lavender)
+- #F5EBDD (beige)
+
+Maintain consistency across UI
+
+--------------------------------------------------
+
+🚫 CONSTRAINTS
+
+- No authentication
+- No backend/database
+- Keep everything client-side
+- Keep it fast and lightweight
+
+--------------------------------------------------
+
+🎯 FINAL RESULT
+
+The app should feel like:
+
+"I’m not typing a message — I’m creating something meaningful for someone."
+
+Focus on:
+- Emotional design
+- Smooth UX
+- Visual polish

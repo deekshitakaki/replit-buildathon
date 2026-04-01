@@ -60,11 +60,15 @@
 }
 
 .paper-bg-blush {
-  background-color: var(--color-bg-blush);
+  background-color: #fff0f3;
+  background-image: radial-gradient(ellipse at top left, #fadadd 0%, transparent 60%),
+                    radial-gradient(ellipse at bottom right, #ffe4ea 0%, transparent 60%);
 }
 
 .paper-bg-lavender {
-  background-color: var(--color-bg-lavender);
+  background-color: #f5f0ff;
+  background-image: radial-gradient(ellipse at top right, #ede6ff 0%, transparent 60%),
+                    radial-gradient(ellipse at bottom left, #e8e0ff 0%, transparent 60%);
 }
 
 .paper-bg-vintage {

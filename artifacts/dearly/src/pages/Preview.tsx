@@ -127,7 +127,7 @@ export default function Preview() {
         <div 
           ref={paperRef}
           className={cn(
-            "w-full min-h-[750px] rounded-lg shadow-[0_8px_40px_rgba(139,90,60,0.12),0_2px_8px_rgba(139,90,60,0.06)] relative overflow-hidden",
+            "w-full min-h-[750px] rounded-[20px] shadow-[0_8px_40px_rgba(139,90,60,0.12),0_2px_8px_rgba(139,90,60,0.06)] relative overflow-hidden",
             `paper-bg-${background}`
           )}
         >

@@ -10,8 +10,8 @@ const BACKGROUNDS: { id: BackgroundType; name: string; colorClass: string }[] = 
   { id: 'blush', name: 'Blush', colorClass: 'bg-[#fff0f3]' },
   { id: 'lavender', name: 'Lavender', colorClass: 'bg-[#f5f0ff]' },
   { id: 'vintage', name: 'Vintage', colorClass: 'bg-[#fdf6e3]' },
-  { id: 'sage', name: 'Sage', colorClass: 'bg-[#f0f7f0]' },
   { id: 'floral', name: 'Floral', colorClass: 'bg-[#fdf8f2] border-2 border-pink-100 relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:bg-[radial-gradient(#ffb3c6_1px,transparent_1px)] after:bg-[size:8px_8px] after:opacity-50' },
+  { id: 'grid', name: 'Journal', colorClass: 'bg-[#fdfaf7] paper-bg-grid' },
 ];
 
 const FONTS: { id: FontType; name: string; className: string }[] = [
@@ -22,7 +22,12 @@ const FONTS: { id: FontType; name: string; className: string }[] = [
   { id: 'sans', name: 'Inter', className: 'font-sans text-sm' },
 ];
 
-const STICKERS = ['🌸', '🌷', '💌', '🕊️', '🌙', '⭐', '🌿', '🦋', '🌹', '💕', '✨', '🎀', '☕', '🍂', '☁️', '🎨'];
+const CATEGORIZED_STICKERS = [
+  { label: 'Flowers', emojis: ['🌸', '🌷', '🌹', '🌺', '🌻', '🌼', '💐', '🪷'] },
+  { label: 'Hearts', emojis: ['💕', '💖', '💗', '💓', '🩷', '❤️', '🤍', '💌'] },
+  { label: 'Sparkles', emojis: ['✨', '⭐', '🌟', '💫', '🌙', '☀️', '🌈', '⚡'] },
+  { label: 'Cute', emojis: ['🦋', '🕊️', '🎀', '☁️', '🍓', '🌿', '🎨', '🧸'] },
+];
 
 export function FloatingPanel() {
   const [isOpen, setIsOpen] = useState(true);
@@ -72,16 +77,23 @@ export function FloatingPanel() {
             <motion.div 
               key="stickers"
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-              className="grid grid-cols-4 gap-3"
+              className="flex flex-col gap-6"
             >
-              {STICKERS.map((emoji) => (
-                <button
-                  key={emoji}
-                  onClick={() => addSticker(emoji)}
-                  className="aspect-square flex items-center justify-center text-3xl hover:scale-125 transition-transform hover:bg-primary/5 rounded-xl"
-                >
-                  {emoji}
-                </button>
+              {CATEGORIZED_STICKERS.map((category) => (
+                <div key={category.label} className="flex flex-col gap-2">
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider pl-1">{category.label}</span>
+                  <div className="grid grid-cols-4 gap-3">
+                    {category.emojis.map((emoji) => (
+                      <button
+                        key={emoji}
+                        onClick={() => addSticker(emoji)}
+                        className="aspect-square flex items-center justify-center text-3xl hover:scale-125 transition-transform duration-150 cursor-pointer hover:bg-primary/5 rounded-xl"
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </motion.div>
           )}

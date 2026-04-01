@@ -36,7 +36,7 @@ export default function Write() {
   }, [content, font]); // Re-calculate if font changes size
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
       {/* Top Bar */}
       <header className="h-16 bg-white/80 backdrop-blur-md border-b border-border/50 flex items-center justify-between px-6 z-30 sticky top-0">
         <Link href="/">
@@ -48,13 +48,13 @@ export default function Write() {
         <div className="flex items-center gap-3">
           <Button 
             variant="outline" 
-            className="bg-white"
+            className="bg-white transition-all duration-200 hover:scale-105"
             onClick={makeItBeautiful}
           >
             <Wand2 size={16} className="text-primary" />
             <span className="hidden sm:inline">Make it beautiful</span>
           </Button>
-          <Button onClick={() => setLocation('/preview')} className="bg-primary/90 hover:bg-primary text-white">
+          <Button onClick={() => setLocation('/preview')} className="bg-primary/90 hover:bg-primary text-white transition-all duration-200 hover:scale-105">
             <Eye size={16} />
             Preview
           </Button>
@@ -75,10 +75,15 @@ export default function Write() {
           <div 
             ref={paperRef}
             className={cn(
-              "w-full min-h-[700px] rounded-sm shadow-2xl shadow-black/10 relative overflow-hidden transition-colors duration-500",
+              "w-full min-h-[750px] rounded-lg shadow-[0_8px_40px_rgba(139,90,60,0.12),0_2px_8px_rgba(139,90,60,0.06)] relative overflow-hidden transition-colors duration-500",
               `paper-bg-${background}`
             )}
           >
+            {/* Grain/texture overlay */}
+            <div 
+              className="absolute inset-0 pointer-events-none z-0" 
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E")` }}
+            />
             {/* Soft inner shadow for depth */}
             <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.02)] pointer-events-none" />
 

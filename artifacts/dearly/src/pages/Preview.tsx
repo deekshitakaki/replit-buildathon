@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import html2canvas from "html2canvas";
+import { toPng } from "html-to-image";
 import { Download, Share2, Edit2, Check } from "lucide-react";
 import { useLetterStore } from "@/store/use-letter-store";
 import { Sticker } from "@/components/Sticker";
@@ -21,12 +21,9 @@ export default function Preview() {
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash) {
-      const loaded = loadFromEncodedData(hash);
-      if (loaded) {
-        // Clear hash after loading to keep URL clean, or keep it. Let's keep it so refresh works.
-      }
+      loadFromEncodedData(hash);
     }
-  }, [loadFromEncodedData]);
+  }, []);
 
   // Reveal sequence
   useEffect(() => {
@@ -46,18 +43,16 @@ export default function Preview() {
     if (!paperRef.current) return;
     setIsExporting(true);
     try {
-      const canvas = await html2canvas(paperRef.current, {
-        scale: 2, // Higher quality
-        useCORS: true,
-        backgroundColor: null,
+      const dataUrl = await toPng(paperRef.current, { 
+        pixelRatio: 2,
+        skipFonts: false,
       });
-      const url = canvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "dearly-letter.png";
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = 'dearly-letter.png';
       a.click();
-    } catch (error) {
-      console.error("Export failed", error);
+    } catch (err) {
+      console.error('Export failed', err);
     } finally {
       setIsExporting(false);
     }
@@ -69,11 +64,12 @@ export default function Preview() {
       content: state.content,
       background: state.background,
       font: state.font,
-      stickers: state.stickers
+      stickers: state.stickers,
     };
-    const encoded = btoa(JSON.stringify(dataToShare));
-    const url = `${window.location.origin}${window.location.pathname}#/preview#${encoded}`;
-    
+    const encoded = btoa(encodeURIComponent(JSON.stringify(dataToShare)));
+    const origin = window.location.origin;
+    const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+    const url = `${origin}${basePath}/preview#${encoded}`;
     navigator.clipboard.writeText(url).then(() => {
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 3000);
@@ -113,10 +109,10 @@ export default function Preview() {
             <Button 
               onClick={handleDownload} 
               disabled={isExporting}
-              className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+              className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:scale-105"
             >
-              <Download size={16} />
-              {isExporting ? "Saving..." : "Save PNG"}
+              {!isExporting && <Download size={16} />}
+              {isExporting ? "Preparing your letter... ✨" : "Save PNG"}
             </Button>
           </motion.div>
         )}
@@ -131,10 +127,15 @@ export default function Preview() {
         <div 
           ref={paperRef}
           className={cn(
-            "w-full min-h-[700px] rounded-sm shadow-2xl relative overflow-hidden",
+            "w-full min-h-[750px] rounded-lg shadow-[0_8px_40px_rgba(139,90,60,0.12),0_2px_8px_rgba(139,90,60,0.06)] relative overflow-hidden",
             `paper-bg-${background}`
           )}
         >
+          {/* Grain/texture overlay */}
+          <div 
+            className="absolute inset-0 pointer-events-none z-0" 
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E")` }}
+          />
           <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.03)] pointer-events-none" />
 
           <div className={cn("relative z-10 p-8 sm:p-12 md:p-16 h-full", fontClasses[font])}>

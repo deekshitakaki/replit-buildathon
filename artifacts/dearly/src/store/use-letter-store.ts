@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { generateId } from '@/lib/utils';
 
-export type BackgroundType = 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'sage';
+export type BackgroundType = 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'grid';
 export type FontType = 'dancing' | 'sacramento' | 'satisfy' | 'sans' | 'serif';
 
 export interface Sticker {
@@ -67,31 +67,27 @@ export const useLetterStore = create<LetterState>()(
       })),
 
       makeItBeautiful: () => set((state) => {
-        const newStickers: Sticker[] = [];
-        const count = 3 + Math.floor(Math.random() * 3); // 3 to 5 stickers
-        
-        for (let i = 0; i < count; i++) {
-          const emoji = AVAILABLE_EMOJIS[Math.floor(Math.random() * AVAILABLE_EMOJIS.length)];
-          newStickers.push({
-            id: generateId(),
-            emoji,
-            // Random positions spread across a typical paper size (assume 600x800 approx area)
-            x: Math.random() * 400 + 50, 
-            y: Math.random() * 600 + 50,
-            rotation: (Math.random() - 0.5) * 45,
-            scale: 1 + Math.random() * 0.8,
-          });
-        }
-
-        return {
-          ...state,
-          stickers: [...state.stickers, ...newStickers],
-        };
+        const emojis = ['🌸', '💕', '✨', '🌷', '🦋', '⭐', '🌹', '💌'];
+        const positions = [
+          { x: 30, y: 30 },
+          { x: 450, y: 40 },
+          { x: 60, y: 550 },
+          { x: 420, y: 500 },
+        ];
+        const newStickers: Sticker[] = positions.map((pos) => ({
+          id: generateId(),
+          emoji: emojis[Math.floor(Math.random() * emojis.length)],
+          x: pos.x + (Math.random() - 0.5) * 40,
+          y: pos.y + (Math.random() - 0.5) * 40,
+          rotation: (Math.random() - 0.5) * 25,
+          scale: 1 + Math.random() * 0.6,
+        }));
+        return { stickers: newStickers };
       }),
 
       loadFromEncodedData: (encoded: string) => {
         try {
-          const json = atob(encoded);
+          const json = decodeURIComponent(atob(encoded));
           const data = JSON.parse(json);
           if (data && typeof data === 'object') {
             set({

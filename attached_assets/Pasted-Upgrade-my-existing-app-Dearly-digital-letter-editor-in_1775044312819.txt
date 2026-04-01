@@ -1,0 +1,137 @@
+Upgrade my existing app "Dearly" (digital letter editor) into a highly aesthetic, polished, and interactive experience inspired by DigiBouquet.
+
+IMPORTANT:
+Do NOT rebuild from scratch. Improve the current app structure and UI.
+
+----------------------------------------
+🎨 DESIGN & AESTHETIC IMPROVEMENTS
+
+- Convert the editor into a centered "paper" experience:
+  - Soft shadow
+  - Rounded corners
+  - Subtle texture (light grain or paper feel)
+  - Proper padding like a real letter
+
+- Use a soft pastel color palette:
+  - Cream (#FFF8F5)
+  - Blush pink (#FADADD)
+  - Lavender (#E6E6FA)
+  - Light beige (#F5EBDD)
+
+- Improve spacing, alignment, and typography
+- Add smooth transitions (fade, scale, hover effects)
+
+----------------------------------------
+✍️ TYPOGRAPHY
+
+- Add handwritten fonts:
+  - Dancing Script
+  - Sacramento
+
+- Improve readability:
+  - Increase line height
+  - Add margins like a real letter
+
+----------------------------------------
+🌸 STICKERS (MAJOR UPGRADE)
+
+- Add a rich sticker library with categories:
+  1. Flowers (roses, tulips, daisies)
+  2. Hearts (cute, pastel, small/large)
+  3. Sparkles (stars, glow, magic)
+  4. Cute elements (bows, clouds, butterflies)
+
+- Stickers should:
+  - Be pastel and consistent in style
+  - Be draggable smoothly
+  - Slightly scale on hover
+  - Show "grab" cursor
+
+- Fix drag issues using a reliable library (react-draggable)
+
+----------------------------------------
+📄 PAPER BACKGROUNDS
+
+Add multiple selectable paper styles:
+
+1. Plain pastel paper
+2. Floral background
+3. Vintage paper (slight brown texture)
+4. Grid / journal style
+5. Soft gradient background
+
+Allow user to switch backgrounds easily
+
+----------------------------------------
+✨ "MAKE IT BEAUTIFUL" FEATURE
+
+Improve this feature:
+
+- Automatically:
+  - Add 2–4 stickers in balanced positions
+  - Adjust spacing of text
+  - Slightly enhance layout
+
+- Add smooth animation when applied
+
+----------------------------------------
+📤 EXPORT (FIX + IMPROVE)
+
+- Fix PNG export using html-to-image
+- Ensure:
+  - No UI elements appear in export
+  - High quality output
+
+- Add loading state:
+  "Preparing your letter... ✨"
+
+----------------------------------------
+🔗 SHARE LINK (IMPORTANT)
+
+- Implement shareable links using URL encoding:
+  - Encode text, stickers, and theme into URL
+  - Decode on load
+
+- Create a "view mode":
+  - No editing UI
+  - Clean full-screen letter
+
+----------------------------------------
+🎬 REVEAL EXPERIENCE (HIGH PRIORITY)
+
+When opening shared link:
+
+- Blank screen initially
+- Paper fades in smoothly
+- Text appears gradually (fade or typewriter effect)
+- Optional soft animation
+
+This should feel emotional and magical
+
+----------------------------------------
+⚡ INTERACTIONS & MICRO-UX
+
+- Add hover effects on buttons
+- Add smooth scaling for stickers
+- Add subtle animations when elements appear
+- Ensure everything feels responsive and fluid
+
+----------------------------------------
+🚫 CONSTRAINTS
+
+- Do NOT add authentication
+- Do NOT add backend/database
+- Keep everything client-side
+- Keep app lightweight and fast
+
+----------------------------------------
+🎯 GOAL
+
+Transform the app from a basic editor into:
+
+"An emotional, aesthetic experience where users create and share beautiful digital letters."
+
+Focus on:
+- Visual polish
+- Smooth interactions
+- Emotional feel

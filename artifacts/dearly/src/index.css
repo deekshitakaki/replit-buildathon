@@ -81,8 +81,12 @@
   opacity: 0.9;
 }
 
-.paper-bg-sage {
-  background-color: var(--color-bg-sage);
+.paper-bg-grid {
+  background-color: #fdfaf7;
+  background-image: 
+    linear-gradient(rgba(180,160,140,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,160,140,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Custom Scrollbar for panels */

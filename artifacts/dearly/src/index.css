@@ -112,3 +112,22 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Paper grid background fix */
+.paper-bg-grid {
+  background-color: #fdfaf7;
+  background-image: 
+    linear-gradient(rgba(180,160,140,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,160,140,0.10) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Smoother body feel */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better text selection on paper */
+textarea::selection {
+  background-color: hsl(340 60% 75% / 0.25);
+}

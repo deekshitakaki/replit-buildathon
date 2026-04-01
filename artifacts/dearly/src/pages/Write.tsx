@@ -2,7 +2,6 @@ import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Eye, Wand2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { FloatingPanel } from "@/components/FloatingPanel";
 import { Sticker } from "@/components/Sticker";
 import { useLetterStore } from "@/store/use-letter-store";
@@ -38,33 +37,35 @@ export default function Write() {
   return (
     <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
       {/* Top Bar */}
-      <header className="h-16 bg-white/80 backdrop-blur-md border-b border-border/50 flex items-center justify-between px-6 z-30 sticky top-0">
+      <header className="bg-white/70 backdrop-blur-xl flex items-center justify-between px-8 py-4 z-30 sticky top-0 shadow-[0_1px_0_rgba(0,0,0,0.05)]">
         <Link href="/">
-          <div className="font-serif italic font-bold text-2xl text-foreground cursor-pointer hover:opacity-80 transition-opacity">
-            Dearly.
+          <div className="font-serif italic font-semibold text-xl text-foreground/80 cursor-pointer hover:text-foreground transition-colors tracking-wide">
+            Dearly
           </div>
         </Link>
         
-        <div className="flex items-center gap-3">
-          <Button 
-            variant="outline" 
-            className="bg-white transition-all duration-200 hover:scale-105"
+        <div className="flex items-center gap-2">
+          <button 
             onClick={makeItBeautiful}
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-foreground/60 hover:text-foreground rounded-full hover:bg-black/5 transition-all duration-200"
           >
-            <Wand2 size={16} className="text-primary" />
-            <span className="hidden sm:inline">Make it beautiful</span>
-          </Button>
-          <Button onClick={() => setLocation('/preview')} className="bg-primary/90 hover:bg-primary text-white transition-all duration-200 hover:scale-105">
-            <Eye size={16} />
+            <Wand2 size={14} />
+            Make it beautiful
+          </button>
+          <button 
+            onClick={() => setLocation('/preview')}
+            className="flex items-center gap-1.5 px-5 py-2 text-sm font-medium bg-foreground text-background rounded-full hover:bg-foreground/90 transition-all duration-200 shadow-sm"
+          >
+            <Eye size={14} />
             Preview
-          </Button>
+          </button>
         </div>
       </header>
 
       <FloatingPanel />
 
       {/* Main Canvas Area */}
-      <main className="flex-1 overflow-y-auto py-12 px-4 sm:px-12 flex justify-center custom-scrollbar pb-32">
+      <main className="flex-1 overflow-y-auto pt-16 pb-32 px-6 sm:px-8 flex justify-center custom-scrollbar">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,8 +116,8 @@ export default function Write() {
             ))}
           </div>
           
-          <div className="text-center mt-6 text-sm text-muted-foreground font-medium">
-            Drag stickers to move them. Click 'Preview' when you're ready.
+          <div className="text-center mt-8 text-xs text-muted-foreground/50 tracking-wide">
+            Click stickers to add · drag to position
           </div>
         </motion.div>
       </main>

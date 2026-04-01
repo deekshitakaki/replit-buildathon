@@ -1,8 +1,7 @@
-import { motion, useDragControls } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLetterStore, Sticker as StickerType } from "@/store/use-letter-store";
-import { cn } from "@/lib/utils";
 
 interface StickerProps {
   sticker: StickerType;
@@ -14,16 +13,25 @@ export function Sticker({ sticker, isEditable = true, paperRef }: StickerProps) 
   const [isHovered, setIsHovered] = useState(false);
   const updateSticker = useLetterStore((state) => state.updateSticker);
   const removeSticker = useLetterStore((state) => state.removeSticker);
-  const dragControls = useDragControls();
+
+  const x = useMotionValue(sticker.x);
+  const y = useMotionValue(sticker.y);
+
+  // Sync position from store only on initial mount or when sticker.id changes
+  useEffect(() => {
+    x.set(sticker.x);
+    y.set(sticker.y);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sticker.id]);
 
   if (!isEditable) {
     return (
       <motion.div
-        className="absolute pointer-events-none select-none drop-shadow-md"
+        className="absolute pointer-events-none select-none"
         style={{ x: sticker.x, y: sticker.y, rotate: sticker.rotation, scale: sticker.scale }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: sticker.scale, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        transition={{ type: "spring", stiffness: 260, damping: 22 }}
       >
         <span className="text-4xl filter drop-shadow-sm">{sticker.emoji}</span>
       </motion.div>
@@ -32,41 +40,48 @@ export function Sticker({ sticker, isEditable = true, paperRef }: StickerProps) 
 
   return (
     <motion.div
-      className={cn(
-        "absolute cursor-grab active:cursor-grabbing group",
-        isHovered && "z-50"
-      )}
+      className="absolute select-none touch-none"
+      style={{
+        x,
+        y,
+        rotate: sticker.rotation,
+        scale: sticker.scale,
+        cursor: isHovered ? "grab" : "grab",
+        zIndex: isHovered ? 50 : 10,
+      }}
       drag
-      dragControls={dragControls}
       dragConstraints={paperRef}
       dragMomentum={false}
-      onDragEnd={(_, info) => {
-        // Approximate new position by adding offset to original
-        updateSticker(sticker.id, { 
-          x: sticker.x + info.offset.x, 
-          y: sticker.y + info.offset.y 
-        });
+      dragElastic={0}
+      whileDrag={{
+        scale: sticker.scale * 1.15,
+        cursor: "grabbing",
+        filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.18))",
+        zIndex: 100,
       }}
-      style={{ x: sticker.x, y: sticker.y, rotate: sticker.rotation, scale: sticker.scale }}
-      initial={{ scale: 0 }}
-      animate={{ scale: sticker.scale }}
-      whileHover={{ scale: sticker.scale * 1.1 }}
-      whileDrag={{ scale: sticker.scale * 1.2, filter: "drop-shadow(0px 10px 10px rgba(0,0,0,0.15))" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ scale: sticker.scale * 1.08 }}
+      onDragEnd={() => {
+        updateSticker(sticker.id, { x: x.get(), y: y.get() });
+      }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: sticker.scale, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 24 }}
     >
       <div className="relative">
-        <span className="text-4xl select-none filter drop-shadow-sm">{sticker.emoji}</span>
-        
+        <span className="text-4xl">{sticker.emoji}</span>
         {isHovered && (
           <button
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
               removeSticker(sticker.id);
             }}
-            className="absolute -top-3 -right-3 bg-white text-destructive rounded-full p-1 shadow-md border border-border opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50 hover:scale-110"
+            className="absolute -top-2.5 -right-2.5 w-5 h-5 bg-white text-rose-400 rounded-full shadow-md border border-rose-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-50 hover:scale-110"
+            style={{ opacity: 1 }}
           >
-            <X size={14} strokeWidth={3} />
+            <X size={10} strokeWidth={3} />
           </button>
         )}
       </div>

@@ -74,8 +74,13 @@ export default function Home() {
     <div
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse at 20% 20%, #ffe4ec 0%, transparent 50%), radial-gradient(ellipse at 80% 10%, #ede9ff 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, #fff8f0 0%, transparent 60%), #fdf9f7",
+        background: [
+          "radial-gradient(ellipse 80% 60% at 15% 10%, #ffd6e4 0%, transparent 55%)",
+          "radial-gradient(ellipse 70% 55% at 88% 15%, #e8e0ff 0%, transparent 55%)",
+          "radial-gradient(ellipse 60% 50% at 50% 95%, #ffecd6 0%, transparent 55%)",
+          "radial-gradient(ellipse 90% 80% at 50% 50%, #fff4f8 0%, transparent 70%)",
+          "#fdf8f5",
+        ].join(", "),
       }}
     >
       {/* Floating ambient orbs */}

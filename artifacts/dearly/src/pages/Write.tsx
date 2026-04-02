@@ -70,7 +70,7 @@ export default function Write() {
       <FloatingPanel />
 
       {/* Main Canvas Area */}
-      <main className="flex-1 overflow-y-auto pt-16 pb-32 px-6 md:pl-80 md:pr-12 flex justify-center custom-scrollbar">
+      <main className="flex-1 overflow-y-auto pt-14 pb-32 flex justify-center custom-scrollbar" style={{ paddingLeft: 'max(2rem, calc(240px + 2rem))', paddingRight: '2rem' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -81,7 +81,7 @@ export default function Write() {
           <div 
             ref={paperRef}
             className={cn(
-              "w-full min-h-[750px] rounded-[20px] shadow-[0_8px_40px_rgba(139,90,60,0.12),0_2px_8px_rgba(139,90,60,0.06)] relative overflow-hidden transition-colors duration-500",
+              "w-full min-h-[750px] rounded-[20px] shadow-[0_12px_56px_rgba(139,90,60,0.14),0_4px_16px_rgba(139,90,60,0.08)] relative overflow-hidden transition-colors duration-500",
               `paper-bg-${background}`
             )}
           >

@@ -57,7 +57,7 @@ export function FloatingPanel() {
       initial={{ x: -300, opacity: 0 }}
       animate={{ x: isOpen ? 0 : -260, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="fixed left-4 top-20 bottom-20 w-64 bg-white/90 backdrop-blur-2xl border border-black/[0.06] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] z-40 flex flex-col overflow-hidden"
+      className="fixed left-4 top-20 bottom-20 w-56 bg-white/92 backdrop-blur-2xl border border-black/[0.06] rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.07)] z-40 flex flex-col overflow-hidden"
     >
       {/* Toggle Button */}
       <button

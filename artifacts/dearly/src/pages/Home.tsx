@@ -150,23 +150,24 @@ export default function Home() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 gap-3 w-full mb-8"
+          className="grid grid-cols-2 gap-4 w-full mb-8"
         >
           {OCCASIONS.map((occasion) => (
             <motion.button
               key={occasion.id}
               variants={item}
               onClick={() => handleOccasion(occasion)}
-              whileHover={{ y: -3, scale: 1.02 }}
+              whileHover={{ y: -5, scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className={`
                 group relative flex flex-col items-center justify-center gap-2.5
-                py-7 px-4 rounded-[18px] cursor-pointer
-                bg-gradient-to-br ${occasion.gradient}
-                border ${occasion.border}
-                backdrop-blur-md
-                shadow-sm hover:shadow-lg ${occasion.glow}
-                transition-shadow duration-300
+                py-8 px-4 rounded-[20px] cursor-pointer
+                bg-white/30 backdrop-blur-xl
+                border border-white/60
+                shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_4px_rgba(0,0,0,0.04)]
+                hover:shadow-[0_12px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.05)]
+                hover:bg-white/50
+                transition-[shadow,background-color] duration-300
               `}
             >
               <motion.span

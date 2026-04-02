@@ -103,19 +103,24 @@ export default function Home() {
         transition={{ duration: 1.2 }}
         className="relative z-10 flex flex-col items-center text-center px-6 max-w-md w-full"
       >
-        {/* Letter icon */}
+        {/* Brand title */}
         <motion.div
-          initial={{ scale: 0.7, opacity: 0, y: -10 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 relative"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 text-center"
         >
-          <div className="text-5xl select-none">✉️</div>
-          <motion.div
-            animate={{ scale: [1, 1.15, 1] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 rounded-full bg-rose-200/20 blur-xl -z-10"
-          />
+          <span
+            className="font-cormorant italic"
+            style={{
+              fontSize: "clamp(32px, 5vw, 46px)",
+              color: "hsl(20 25% 38%)",
+              letterSpacing: "0.12em",
+              fontWeight: 400,
+            }}
+          >
+            Dearly
+          </span>
         </motion.div>
 
         {/* Heading */}

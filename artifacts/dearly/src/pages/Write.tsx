@@ -14,12 +14,17 @@ export default function Write() {
   
   const { content, background, font, stickers, setContent, makeItBeautiful } = useLetterStore();
 
-  const fontClasses = {
-    dancing: "font-dancing text-3xl leading-relaxed",
-    sacramento: "font-sacramento text-4xl leading-relaxed",
-    satisfy: "font-satisfy text-3xl leading-relaxed",
-    sans: "font-sans text-lg leading-loose",
-    serif: "font-serif text-xl leading-loose",
+  const fontClasses: Record<string, string> = {
+    greatvibes:  "font-greatvibes text-4xl leading-relaxed",
+    dancing:     "font-dancing text-3xl leading-relaxed",
+    sacramento:  "font-sacramento text-4xl leading-relaxed",
+    parisienne:  "font-parisienne text-3xl leading-relaxed",
+    allura:      "font-allura text-4xl leading-relaxed",
+    satisfy:     "font-satisfy text-3xl leading-relaxed",
+    cormorant:   "font-cormorant text-2xl italic leading-loose",
+    serif:       "font-serif text-xl leading-loose",
+    baskerville: "font-baskerville text-lg leading-loose",
+    sans:        "font-sans text-lg leading-loose",
   };
 
   // Auto-resize textarea

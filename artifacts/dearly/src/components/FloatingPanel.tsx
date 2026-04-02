@@ -14,12 +14,17 @@ const BACKGROUNDS: { id: BackgroundType; name: string; colorClass: string }[] = 
   { id: 'grid', name: 'Journal', colorClass: 'bg-[#fdfaf7] paper-bg-grid' },
 ];
 
-const FONTS: { id: FontType; name: string; className: string }[] = [
-  { id: 'dancing', name: 'Dancing Script', className: 'font-dancing text-xl' },
-  { id: 'sacramento', name: 'Sacramento', className: 'font-sacramento text-2xl' },
-  { id: 'satisfy', name: 'Satisfy', className: 'font-satisfy text-xl' },
-  { id: 'serif', name: 'Playfair Display', className: 'font-serif text-lg' },
-  { id: 'sans', name: 'Inter', className: 'font-sans text-sm' },
+const FONTS: { id: FontType; name: string; className: string; group: string }[] = [
+  { id: 'greatvibes',  name: 'Great Vibes',        className: 'font-greatvibes text-2xl',  group: 'Handwritten' },
+  { id: 'dancing',     name: 'Dancing Script',      className: 'font-dancing text-xl',      group: 'Handwritten' },
+  { id: 'sacramento',  name: 'Sacramento',          className: 'font-sacramento text-2xl',  group: 'Handwritten' },
+  { id: 'parisienne',  name: 'Parisienne',          className: 'font-parisienne text-xl',   group: 'Handwritten' },
+  { id: 'allura',      name: 'Allura',              className: 'font-allura text-2xl',      group: 'Handwritten' },
+  { id: 'satisfy',     name: 'Satisfy',             className: 'font-satisfy text-xl',      group: 'Handwritten' },
+  { id: 'cormorant',   name: 'Cormorant Garamond',  className: 'font-cormorant text-xl italic', group: 'Serif' },
+  { id: 'serif',       name: 'Playfair Display',    className: 'font-serif text-lg',        group: 'Serif' },
+  { id: 'baskerville', name: 'Libre Baskerville',   className: 'font-baskerville text-base', group: 'Serif' },
+  { id: 'sans',        name: 'Inter',               className: 'font-sans text-sm',         group: 'Clean' },
 ];
 
 const CATEGORIZED_STICKERS = [
@@ -115,21 +120,28 @@ export function FloatingPanel() {
             <motion.div 
               key="font"
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-              className="flex flex-col gap-2"
+              className="flex flex-col gap-4"
             >
-              {FONTS.map((f) => (
-                <button
-                  key={f.id}
-                  onClick={() => setFont(f.id)}
-                  className={cn(
-                    "p-3 text-left rounded-xl border transition-all",
-                    font === f.id 
-                      ? "border-primary/40 bg-primary/8 text-primary shadow-sm" 
-                      : "border-transparent hover:bg-secondary text-foreground"
-                  )}
-                >
-                  <span className={f.className}>{f.name}</span>
-                </button>
+              {(['Handwritten', 'Serif', 'Clean'] as const).map((group) => (
+                <div key={group}>
+                  <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-widest pl-0.5 mb-2 block">{group}</span>
+                  <div className="flex flex-col gap-1">
+                    {FONTS.filter(f => f.group === group).map((f) => (
+                      <button
+                        key={f.id}
+                        onClick={() => setFont(f.id)}
+                        className={cn(
+                          "p-3 text-left rounded-xl border transition-all",
+                          font === f.id 
+                            ? "border-primary/40 bg-primary/[0.08] text-primary shadow-sm" 
+                            : "border-transparent hover:bg-secondary text-foreground"
+                        )}
+                      >
+                        <span className={f.className}>{f.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </motion.div>
           )}

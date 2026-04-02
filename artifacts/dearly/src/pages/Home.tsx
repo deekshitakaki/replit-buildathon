@@ -9,9 +9,11 @@ const OCCASIONS = [
     label: "Love",
     emoji: "💖",
     background: "blush" as BackgroundType,
-    font: "sacramento" as FontType,
+    font: "greatvibes" as FontType,
     hint: "for someone who means the world",
-    accent: "#fadadd",
+    gradient: "from-rose-50/80 to-pink-50/60",
+    border: "border-rose-200/50",
+    glow: "hover:shadow-rose-100/60",
   },
   {
     id: "birthday",
@@ -20,27 +22,42 @@ const OCCASIONS = [
     background: "lavender" as BackgroundType,
     font: "dancing" as FontType,
     hint: "celebrate their special day",
-    accent: "#e6e6fa",
+    gradient: "from-violet-50/80 to-purple-50/60",
+    border: "border-violet-200/50",
+    glow: "hover:shadow-violet-100/60",
   },
   {
     id: "apology",
     label: "Apology",
     emoji: "🫂",
     background: "vintage" as BackgroundType,
-    font: "serif" as FontType,
+    font: "cormorant" as FontType,
     hint: "say what's hard to say",
-    accent: "#f5ebdd",
+    gradient: "from-amber-50/80 to-orange-50/60",
+    border: "border-amber-200/50",
+    glow: "hover:shadow-amber-100/60",
   },
   {
     id: "gratitude",
     label: "Gratitude",
     emoji: "🌸",
     background: "cream" as BackgroundType,
-    font: "dancing" as FontType,
+    font: "sacramento" as FontType,
     hint: "thank them from the heart",
-    accent: "#fff8f5",
+    gradient: "from-emerald-50/80 to-teal-50/60",
+    border: "border-emerald-200/50",
+    glow: "hover:shadow-emerald-100/60",
   },
 ];
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.4 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -54,72 +71,121 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #fff8f5 0%, #fdf4f8 50%, #f5f0ff 100%)" }}
+    <div
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse at 20% 20%, #ffe4ec 0%, transparent 50%), radial-gradient(ellipse at 80% 10%, #ede9ff 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, #fff8f0 0%, transparent 60%), #fdf9f7",
+      }}
     >
-      {/* Ambient blobs */}
+      {/* Floating ambient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-15%] left-[-5%] w-[45%] h-[45%] rounded-full bg-pink-100/60 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-purple-100/50 blur-[100px]" />
-        <div className="absolute top-[40%] left-[60%] w-[30%] h-[30%] rounded-full bg-rose-100/40 blur-[80px]" />
+        <motion.div
+          animate={{ y: [0, -18, 0], x: [0, 10, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[8%] left-[12%] w-64 h-64 rounded-full bg-pink-200/30 blur-[80px]"
+        />
+        <motion.div
+          animate={{ y: [0, 14, 0], x: [0, -8, 0] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[12%] right-[10%] w-80 h-80 rounded-full bg-purple-200/25 blur-[100px]"
+        />
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-[45%] left-[55%] w-48 h-48 rounded-full bg-rose-100/30 blur-[60px]"
+        />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-lg w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+        className="relative z-10 flex flex-col items-center text-center px-6 max-w-md w-full"
       >
-        {/* Logo mark */}
+        {/* Letter icon */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.8, ease: "easeOut" }}
-          className="mb-10 text-4xl"
+          initial={{ scale: 0.7, opacity: 0, y: -10 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 relative"
         >
-          ✉️
+          <div className="text-5xl select-none">✉️</div>
+          <motion.div
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 rounded-full bg-rose-200/20 blur-xl -z-10"
+          />
         </motion.div>
 
         {/* Heading */}
-        <h1 className="font-serif text-3xl sm:text-4xl text-foreground/80 leading-snug mb-2">
-          Write something that
-        </h1>
-        <p className="font-dancing text-5xl sm:text-6xl text-primary mb-4 leading-tight">
-          feels like you
-        </p>
-        <p className="text-sm text-muted-foreground mb-12 tracking-wide font-light">
-          Choose a mood to begin
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h1 className="font-serif text-3xl sm:text-4xl text-foreground/75 leading-snug mb-1 tracking-tight">
+            Write something that
+          </h1>
+          <p className="font-dancing text-5xl sm:text-6xl text-primary mb-5 leading-tight">
+            feels like you
+          </p>
+          <p className="text-xs text-muted-foreground/70 mb-10 tracking-[0.2em] uppercase font-light">
+            Choose a mood to begin
+          </p>
+        </motion.div>
 
         {/* Occasion cards */}
-        <div className="grid grid-cols-2 gap-3 w-full mb-10">
-          {OCCASIONS.map((occasion, i) => (
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-2 gap-3 w-full mb-8"
+        >
+          {OCCASIONS.map((occasion) => (
             <motion.button
               key={occasion.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: "easeOut" }}
+              variants={item}
               onClick={() => handleOccasion(occasion)}
-              className="group relative flex flex-col items-center justify-center gap-2 py-6 px-4 rounded-[20px] border border-white/80 bg-white/60 backdrop-blur-sm shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer"
+              whileHover={{ y: -3, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className={`
+                group relative flex flex-col items-center justify-center gap-2.5
+                py-7 px-4 rounded-[18px] cursor-pointer
+                bg-gradient-to-br ${occasion.gradient}
+                border ${occasion.border}
+                backdrop-blur-md
+                shadow-sm hover:shadow-lg ${occasion.glow}
+                transition-shadow duration-300
+              `}
             >
-              <span className="text-3xl group-hover:scale-110 transition-transform duration-200">
+              <motion.span
+                className="text-3xl"
+                whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0] }}
+                transition={{ duration: 0.3 }}
+              >
                 {occasion.emoji}
+              </motion.span>
+              <span className="font-serif text-sm text-foreground/75 tracking-wide">
+                {occasion.label}
               </span>
-              <span className="font-serif text-base text-foreground/80">{occasion.label}</span>
-              <span className="text-[10px] text-muted-foreground font-light tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <span className="text-[10px] text-muted-foreground/60 font-light tracking-wide leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-w-[90%]">
                 {occasion.hint}
               </span>
             </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Or just start */}
-        <button
+        {/* Plain start */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
           onClick={() => setLocation("/write")}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 tracking-wide underline underline-offset-4 decoration-muted"
+          className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-200 tracking-[0.15em] uppercase"
         >
           or just start writing →
-        </button>
+        </motion.button>
       </motion.div>
     </div>
   );

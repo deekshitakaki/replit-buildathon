@@ -1,0 +1,156 @@
+Upgrade my app "Dearly" into a premium, emotionally engaging experience with a cinematic letter opening flow.
+
+IMPORTANT:
+- Do NOT rebuild from scratch
+- Improve current app structure
+- Focus on UX, animations, and aesthetics
+
+--------------------------------------------------
+
+🎬 1. ENVELOPE OPENING EXPERIENCE (CRITICAL FEATURE)
+
+In preview / shared link mode:
+
+1. Show a centered envelope (closed letter) on screen
+   - Soft pastel design
+   - Slight shadow
+   - Minimal background
+
+2. On click:
+   - Animate envelope opening (top flap opens)
+   - Smooth transition (0.6–1s)
+
+3. After opening:
+   - Letter slides or fades out from inside envelope
+   - Center the letter on screen
+
+4. Then:
+   - Text appears gradually (typewriter or fade-in line by line)
+   - Stickers fade/scale into place
+
+5. No editing UI visible in this mode
+
+Goal:
+Make this feel emotional and magical — like opening a real letter
+
+--------------------------------------------------
+
+📄 2. PAPER EXPERIENCE (IMPROVE)
+
+- Centered letter
+- Soft gradient background
+- Rounded corners (20px)
+- Subtle shadow + inner glow
+- Slight texture feel
+
+--------------------------------------------------
+
+🌸 3. STICKER SYSTEM (FIX + POLISH)
+
+- Ensure stickers persist in preview mode (no disappearing)
+- Store:
+  - src
+  - x
+  - y
+
+- Render them correctly in preview
+
+- Improve drag:
+  - Use react-draggable
+  - Smooth movement (no lag)
+  - cursor: grab/grabbing
+
+- Add animation:
+  - Fade/scale when appearing
+
+--------------------------------------------------
+
+✍️ 4. FONT SYSTEM (UPGRADE)
+
+Add more fonts:
+
+Handwritten:
+- Dancing Script
+- Sacramento
+- Great Vibes
+- Allura
+- Parisienne
+
+Serif:
+- Playfair Display
+- Cormorant Garamond
+- Libre Baskerville
+
+Allow switching dynamically
+
+--------------------------------------------------
+
+🎨 5. LANDING PAGE POLISH
+
+- Improve background:
+  radial pastel gradient (cream + pink + lavender)
+
+- Improve mood cards:
+  - glassmorphism (blur)
+  - soft shadows
+  - hover lift + scale
+
+- Add smooth fade-in animations
+
+- Improve typography spacing
+
+--------------------------------------------------
+
+✨ 6. MICRO-INTERACTIONS
+
+- Button hover effects
+- Smooth transitions everywhere
+- Sticker drop animation
+- Subtle scaling and easing
+
+--------------------------------------------------
+
+📤 7. PNG EXPORT (FIX)
+
+- Use html-to-image
+- Export only the letter
+- High resolution
+- Ensure stickers + fonts render
+
+Add loading state:
+"Preparing your letter... ✨"
+
+--------------------------------------------------
+
+🔗 8. SHARE LINK (FIX)
+
+- Encode:
+  text, stickers, theme into URL
+
+- Decode on load
+
+- Ensure preview shows exact saved state
+
+--------------------------------------------------
+
+⬅️ 9. ADD BACK BUTTON
+
+- In preview mode:
+  Add "Back to Edit" button
+- Must preserve state
+
+--------------------------------------------------
+
+🎯 FINAL GOAL
+
+The app should feel like:
+
+"I’m opening something meaningful"
+
+NOT just:
+"I’m viewing content"
+
+Focus on:
+- emotional experience
+- smooth animations
+- premium design

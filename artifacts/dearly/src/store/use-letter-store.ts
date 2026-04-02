@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { generateId } from '@/lib/utils';
 
 export type BackgroundType = 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'grid';
-export type FontType = 'dancing' | 'sacramento' | 'satisfy' | 'sans' | 'serif';
+export type FontType = 'dancing' | 'sacramento' | 'satisfy' | 'sans' | 'serif' | 'greatvibes' | 'allura' | 'parisienne' | 'cormorant' | 'baskerville';
 
 export interface Sticker {
   id: string;

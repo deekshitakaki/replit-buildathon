@@ -106,7 +106,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-md w-full"
+        className="relative z-10 flex flex-col items-center text-center px-6 max-w-xl w-full"
       >
         {/* Brand title */}
         <motion.div
@@ -140,7 +140,7 @@ export default function Home() {
           <p className="font-dancing text-5xl sm:text-6xl text-primary mb-5 leading-tight">
             feels like you
           </p>
-          <p className="text-xs text-muted-foreground/70 mb-10 tracking-[0.2em] uppercase font-light">
+          <p className="text-xs text-muted-foreground/70 mb-6 tracking-[0.2em] uppercase font-light">
             Choose a mood to begin
           </p>
         </motion.div>
@@ -150,38 +150,26 @@ export default function Home() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 gap-4 w-full mb-8"
+          className="grid grid-cols-4 gap-3 w-full mb-8"
         >
           {OCCASIONS.map((occasion) => (
             <motion.button
               key={occasion.id}
               variants={item}
               onClick={() => handleOccasion(occasion)}
-              whileHover={{ y: -5, scale: 1.03 }}
+              whileHover={{ y: -4, scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className={`
-                group relative flex flex-col items-center justify-center gap-2.5
-                py-8 px-4 rounded-[20px] cursor-pointer
-                bg-white/30 backdrop-blur-xl
-                border border-white/60
-                shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_4px_rgba(0,0,0,0.04)]
-                hover:shadow-[0_12px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.05)]
-                hover:bg-white/50
-                transition-[shadow,background-color] duration-300
-              `}
+              className="group flex flex-col items-center justify-center gap-2 py-5 px-3 rounded-2xl cursor-pointer bg-white/30 backdrop-blur-xl border border-white/60 shadow-[0_2px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.09)] hover:bg-white/50 transition-[shadow,background-color] duration-300 w-full"
             >
               <motion.span
-                className="text-3xl"
-                whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 0.3 }}
+                className="text-2xl"
+                whileHover={{ scale: 1.18 }}
+                transition={{ duration: 0.2 }}
               >
                 {occasion.emoji}
               </motion.span>
-              <span className="font-serif text-sm text-foreground/75 tracking-wide">
+              <span className="font-serif text-xs text-foreground/70 tracking-wide">
                 {occasion.label}
-              </span>
-              <span className="text-[10px] text-muted-foreground/60 font-light tracking-wide leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-w-[90%]">
-                {occasion.hint}
               </span>
             </motion.button>
           ))}

@@ -2,8 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { generateId } from '@/lib/utils';
 
-export type BackgroundType = 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'grid';
-export type FontType = 'dancing' | 'sacramento' | 'satisfy' | 'sans' | 'serif' | 'greatvibes' | 'allura' | 'parisienne' | 'cormorant' | 'baskerville';
+export type BackgroundType =
+  | 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'grid'
+  | 'rose'  | 'kraft' | 'party'   | 'watercolor';
+
+export type FontType =
+  | 'dancing' | 'sacramento' | 'satisfy' | 'sans' | 'serif'
+  | 'greatvibes' | 'allura' | 'parisienne' | 'cormorant' | 'baskerville';
 
 export interface Sticker {
   id: string;
@@ -30,92 +35,124 @@ export interface LetterState {
   loadFromEncodedData: (encoded: string) => boolean;
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+/** Fisher-Yates shuffle — returns a new shuffled array */
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const jitter = (base: number, range: number) =>
+  base + (Math.random() - 0.5) * range;
+
 // ── Mood detection ────────────────────────────────────────────────────────────
 
 type Mood = 'love' | 'birthday' | 'apology' | 'gratitude' | 'general';
 
 const MOOD_KEYWORDS: Record<Mood, RegExp> = {
   love:      /\b(love|heart|miss|forever|always|darling|dear|adore|cherish|babe|sweetheart|romance)\b/i,
-  birthday:  /\b(birthday|happy|celebrate|wish|born|party|age|year|cake|gift)\b/i,
+  birthday:  /\b(birthday|happy|celebrate|wish|born|party|age|year|cake|gift|candle|balloon)\b/i,
   apology:   /\b(sorry|apologize|forgive|mistake|hurt|wrong|regret|fault|forgiveness)\b/i,
   gratitude: /\b(thank|grateful|gratitude|appreciate|blessed|thankful|recognition|honored)\b/i,
   general:   /.*/,
 };
 
 const BG_MOOD_MAP: Record<BackgroundType, Mood> = {
-  blush:    'love',
-  lavender: 'birthday',
-  vintage:  'apology',
-  floral:   'gratitude',
-  cream:    'gratitude',
-  grid:     'general',
+  blush:      'love',
+  rose:       'love',
+  lavender:   'birthday',
+  party:      'birthday',
+  vintage:    'apology',
+  kraft:      'apology',
+  floral:     'gratitude',
+  cream:      'gratitude',
+  watercolor: 'general',
+  grid:       'general',
 };
 
 function detectMood(content: string, background: BackgroundType): Mood {
   for (const mood of (['love', 'birthday', 'apology', 'gratitude'] as Mood[])) {
     if (MOOD_KEYWORDS[mood].test(content)) return mood;
   }
-  // Fall back to the background's implied mood
   return BG_MOOD_MAP[background] ?? 'general';
 }
 
 // ── Mood presets ──────────────────────────────────────────────────────────────
 
 interface MoodPreset {
-  font: FontType;
-  background: BackgroundType;
+  fonts: FontType[];
+  backgrounds: BackgroundType[];
   emojis: string[];
   stickerCount: number;
 }
 
 const MOOD_PRESETS: Record<Mood, MoodPreset> = {
   love: {
-    font: 'greatvibes',
-    background: 'blush',
-    emojis: ['💖', '🌹', '💕', '🩷'],
+    fonts:       ['greatvibes', 'sacramento', 'allura'],
+    backgrounds: ['blush', 'rose'],
+    emojis:      ['💖', '🌹', '💕', '🩷', '💗', '💝', '💌', '🌸', '🫶', '💓'],
     stickerCount: 4,
   },
   birthday: {
-    font: 'dancing',
-    background: 'lavender',
-    emojis: ['🎀', '✨', '⭐', '🌟'],
+    fonts:       ['dancing', 'parisienne', 'satisfy'],
+    backgrounds: ['party', 'lavender'],
+    emojis:      ['🎂', '🎈', '🎉', '🎀', '🥳', '🎊', '🎁', '🌟', '✨', '🍰', '🎆', '⭐'],
     stickerCount: 4,
   },
   apology: {
-    font: 'cormorant',
-    background: 'vintage',
-    emojis: ['🕊️', '🌿', '🤍'],
+    fonts:       ['cormorant', 'baskerville', 'serif'],
+    backgrounds: ['vintage', 'kraft'],
+    emojis:      ['🕊️', '🌿', '🤍', '🍃', '🌙', '🫧'],
     stickerCount: 2,
   },
   gratitude: {
-    font: 'sacramento',
-    background: 'floral',
-    emojis: ['🌸', '🌷', '🦋', '🌼'],
+    fonts:       ['sacramento', 'greatvibes', 'dancing'],
+    backgrounds: ['floral', 'watercolor'],
+    emojis:      ['🌸', '🌷', '🦋', '🌼', '🌺', '💐', '🌻', '🌿', '🍃', '✨'],
     stickerCount: 4,
   },
   general: {
-    font: 'dancing',
-    background: 'cream',
-    emojis: ['✨', '🌸', '💕', '⭐'],
+    fonts:       ['dancing', 'satisfy', 'parisienne'],
+    backgrounds: ['cream', 'watercolor'],
+    emojis:      ['✨', '🌸', '💕', '⭐', '🌿', '🦋', '💫', '🌙'],
     stickerCount: 3,
   },
 };
 
-// ── Sticker placement zones (relative to paper top-left = 0,0) ───────────────
-// Paper is at least 500px wide (editor w/ sidebar) and 700px+ tall.
-// Positions are corner/edge anchors to avoid the text area in the center.
+// ── Placement zones (anchored to paper top-left = 0,0) ───────────────────────
+// Paper is at least 500 px wide and 700 px tall.
+// Two pools: corners first, then accents — shuffled separately so variety
+// changes each click while maintaining aesthetic spread.
 
-const PLACEMENT_ZONES: { x: number; y: number; rotation: number; scale: number }[] = [
-  { x: 16,  y: 16,  rotation: -14, scale: 1.35 }, // top-left corner
-  { x: 452, y: 14,  rotation: 16,  scale: 1.25 }, // top-right corner
-  { x: 12,  y: 660, rotation: -20, scale: 1.20 }, // bottom-left corner
-  { x: 454, y: 664, rotation: 12,  scale: 1.40 }, // bottom-right corner
-  { x: 236, y: 10,  rotation: 0,   scale: 1.10 }, // top-center accent
-  { x: 456, y: 340, rotation: 22,  scale: 1.15 }, // mid-right accent
+const CORNER_ZONES = [
+  { x: 16,  y: 16,  rotation: -14, scale: 1.35 }, // top-left
+  { x: 452, y: 14,  rotation: 16,  scale: 1.25 }, // top-right
+  { x: 12,  y: 660, rotation: -20, scale: 1.20 }, // bottom-left
+  { x: 454, y: 664, rotation: 12,  scale: 1.40 }, // bottom-right
 ];
 
-const jitter = (base: number, range: number) =>
-  base + (Math.random() - 0.5) * range;
+const ACCENT_ZONES = [
+  { x: 236, y: 10,  rotation: 0,   scale: 1.10 }, // top-center
+  { x: 456, y: 340, rotation: 22,  scale: 1.15 }, // mid-right
+  { x: 10,  y: 340, rotation: -18, scale: 1.10 }, // mid-left
+  { x: 236, y: 690, rotation: 5,   scale: 1.05 }, // bottom-center
+];
+
+function pickZones(count: number) {
+  const corners = shuffle(CORNER_ZONES);
+  const accents = shuffle(ACCENT_ZONES);
+  // Always use at least 2 corners for visual anchoring
+  const cornerCount = Math.min(count, Math.max(2, count - 1));
+  const accentCount = count - cornerCount;
+  return [...corners.slice(0, cornerCount), ...accents.slice(0, accentCount)];
+}
+
+// ── Store ─────────────────────────────────────────────────────────────────────
 
 export const useLetterStore = create<LetterState>()(
   persist(
@@ -125,9 +162,9 @@ export const useLetterStore = create<LetterState>()(
       font: 'dancing',
       stickers: [],
 
-      setContent: (content) => set({ content }),
+      setContent:    (content)    => set({ content }),
       setBackground: (background) => set({ background }),
-      setFont: (font) => set({ font }),
+      setFont:       (font)       => set({ font }),
 
       addSticker: (emoji) => set((state) => ({
         stickers: [
@@ -152,24 +189,27 @@ export const useLetterStore = create<LetterState>()(
       })),
 
       makeItBeautiful: () => set((state) => {
-        const mood = detectMood(state.content, state.background);
-        const preset = MOOD_PRESETS[mood];
+        const mood    = detectMood(state.content, state.background);
+        const preset  = MOOD_PRESETS[mood];
 
-        const zones = PLACEMENT_ZONES.slice(0, preset.stickerCount);
+        // Pick a random font & background from the mood's palette each click
+        const font       = shuffle(preset.fonts)[0];
+        const background = shuffle(preset.backgrounds)[0];
+
+        // Shuffle the full emoji pool then take the first N (different each click)
+        const shuffledEmojis = shuffle(preset.emojis);
+        const zones          = pickZones(preset.stickerCount);
+
         const newStickers: Sticker[] = zones.map((zone, i) => ({
-          id: generateId(),
-          emoji: preset.emojis[i % preset.emojis.length],
-          x: jitter(zone.x, 10),
-          y: jitter(zone.y, 10),
-          rotation: jitter(zone.rotation, 6),
-          scale: jitter(zone.scale, 0.15),
+          id:       generateId(),
+          emoji:    shuffledEmojis[i % shuffledEmojis.length],
+          x:        jitter(zone.x, 12),
+          y:        jitter(zone.y, 12),
+          rotation: jitter(zone.rotation, 7),
+          scale:    jitter(zone.scale, 0.18),
         }));
 
-        return {
-          font: preset.font,
-          background: preset.background,
-          stickers: newStickers,
-        };
+        return { font, background, stickers: newStickers };
       }),
 
       loadFromEncodedData: (encoded: string) => {
@@ -178,10 +218,10 @@ export const useLetterStore = create<LetterState>()(
           const data = JSON.parse(json);
           if (data && typeof data === 'object') {
             set({
-              content: data.content || '',
+              content:    data.content    || '',
               background: data.background || 'cream',
-              font: data.font || 'dancing',
-              stickers: Array.isArray(data.stickers) ? data.stickers : [],
+              font:       data.font       || 'dancing',
+              stickers:   Array.isArray(data.stickers) ? data.stickers : [],
             });
             return true;
           }

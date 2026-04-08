@@ -98,6 +98,55 @@
   background-size: 28px 28px;
 }
 
+/* ── New textured backgrounds ─────────────────────────────────────── */
+
+/* Rose — deeper warm pink with a radial blush glow */
+.paper-bg-rose {
+  background-color: #ffe4ea;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #ffc2ce 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, #ffb3c1 0%, transparent 55%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Kraft — warm amber paper with visible grain */
+.paper-bg-kraft {
+  background-color: #f0d9a8;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, #e8c97a 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      92deg,
+      transparent,
+      transparent 30px,
+      rgba(160,120,60,0.04) 30px,
+      rgba(160,120,60,0.04) 31px
+    );
+}
+
+/* Party — festive cream with multi-color confetti dots */
+.paper-bg-party {
+  background-color: #fffbf0;
+  background-image:
+    radial-gradient(circle, #ff9eb5 1.5px, transparent 1.5px),
+    radial-gradient(circle, #c4b5fd 1.5px, transparent 1.5px),
+    radial-gradient(circle, #86efac 1.5px, transparent 1.5px),
+    radial-gradient(circle, #fbbf24 1.5px, transparent 1.5px),
+    radial-gradient(circle, #93c5fd 1.5px, transparent 1.5px);
+  background-size: 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px;
+  background-position: 0 0, 22px 22px, 11px 33px, 33px 11px, 5px 18px;
+}
+
+/* Watercolor — soft blue/pink/violet wash */
+.paper-bg-watercolor {
+  background-color: #eef4ff;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 15%, #bfdbfe 0%, transparent 55%),
+    radial-gradient(ellipse 60% 55% at 90% 80%, #fce7f3 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 55% 45%, #ede9fe 0%, transparent 65%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
 /* Custom Scrollbar for panels */
 ::-webkit-scrollbar {
   width: 6px;

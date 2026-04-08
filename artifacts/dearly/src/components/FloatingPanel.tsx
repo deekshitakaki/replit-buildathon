@@ -4,13 +4,17 @@ import { Paintbrush, Type, Sparkles, ChevronLeft, ChevronRight } from "lucide-re
 import { useLetterStore, BackgroundType, FontType } from "@/store/use-letter-store";
 import { cn } from "@/lib/utils";
 
-const BACKGROUNDS: { id: BackgroundType; name: string; colorClass: string }[] = [
-  { id: 'cream',    name: 'Cream',    colorClass: 'bg-[#fdf8f2]' },
-  { id: 'blush',    name: 'Blush',    colorClass: 'bg-[#fff0f3]' },
-  { id: 'lavender', name: 'Lavender', colorClass: 'bg-[#f5f0ff]' },
-  { id: 'vintage',  name: 'Vintage',  colorClass: 'bg-[#fdf6e3]' },
-  { id: 'floral',   name: 'Floral',   colorClass: 'bg-[#fdf8f2] border-2 border-pink-100 relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:bg-[radial-gradient(#ffb3c6_1px,transparent_1px)] after:bg-[size:8px_8px] after:opacity-50' },
-  { id: 'grid',     name: 'Journal',  colorClass: 'bg-[#fdfaf7] paper-bg-grid' },
+const BACKGROUNDS: { id: BackgroundType; name: string; previewClass: string }[] = [
+  { id: 'cream',      name: 'Cream',      previewClass: 'bg-[#fdf8f2]' },
+  { id: 'blush',      name: 'Blush',      previewClass: 'bg-[#fff0f3]' },
+  { id: 'rose',       name: 'Rose',       previewClass: 'bg-[#ffe4ea]' },
+  { id: 'lavender',   name: 'Lavender',   previewClass: 'bg-[#f5f0ff]' },
+  { id: 'vintage',    name: 'Vintage',    previewClass: 'bg-[#fdf6e3]' },
+  { id: 'kraft',      name: 'Kraft',      previewClass: 'bg-[#f0d9a8]' },
+  { id: 'floral',     name: 'Floral',     previewClass: 'paper-bg-floral' },
+  { id: 'party',      name: 'Party 🎉',   previewClass: 'paper-bg-party' },
+  { id: 'watercolor', name: 'Watercolor', previewClass: 'paper-bg-watercolor' },
+  { id: 'grid',       name: 'Journal',    previewClass: 'paper-bg-grid' },
 ];
 
 const FONTS: { id: FontType; name: string; className: string; group: string }[] = [
@@ -27,10 +31,11 @@ const FONTS: { id: FontType; name: string; className: string; group: string }[] 
 ];
 
 const CATEGORIZED_STICKERS = [
-  { label: 'Flowers', emojis: ['🌸', '🌷', '🌹', '🪷', '🌼', '💐', '🌺', '🌻'] },
-  { label: 'Hearts',  emojis: ['🩷', '💕', '💖', '💗', '💓', '💌', '🤍', '💝'] },
-  { label: 'Nature',  emojis: ['🍃', '🌿', '🍂', '🌾', '🌙', '☁️', '🌈', '❄️'] },
-  { label: 'Sparkle', emojis: ['✨', '⭐', '🌟', '💫', '🕊️', '🦋', '🎀', '🧸'] },
+  { label: 'Birthday', emojis: ['🎂', '🎈', '🎉', '🥳', '🎊', '🎁', '🍰', '🎆'] },
+  { label: 'Flowers',  emojis: ['🌸', '🌷', '🌹', '🪷', '🌼', '💐', '🌺', '🌻'] },
+  { label: 'Hearts',   emojis: ['🩷', '💕', '💖', '💗', '💓', '💌', '🤍', '💝'] },
+  { label: 'Nature',   emojis: ['🍃', '🌿', '🍂', '🌾', '🌙', '☁️', '🌈', '❄️'] },
+  { label: 'Sparkle',  emojis: ['✨', '⭐', '🌟', '💫', '🕊️', '🦋', '🎀', '🧸'] },
 ];
 
 export function FloatingPanel() {
@@ -136,7 +141,7 @@ export function FloatingPanel() {
                     onClick={() => setBackground(bg.id)}
                     className={cn(
                       "aspect-[4/3] rounded-2xl border shadow-sm transition-all flex flex-col items-center justify-center gap-2",
-                      bg.colorClass,
+                      bg.previewClass,
                       background === bg.id
                         ? "border-primary ring-4 ring-primary/20 scale-95"
                         : "border-black/5 hover:border-primary/50 hover:scale-105"

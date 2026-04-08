@@ -105,7 +105,7 @@ export const useLetterStore = create<LetterState>()(
       }
     }),
     {
-      name: 'dearly-letter-storage',
+      name: 'dearly-letter-v2',
     }
   )
 );

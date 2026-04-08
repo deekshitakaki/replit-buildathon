@@ -19,40 +19,48 @@ export function Sticker({ sticker, isEditable = true, paperRef }: StickerProps) 
   const x = useMotionValue(sticker.x);
   const y = useMotionValue(sticker.y);
 
-  // Sync position from store only when the sticker id changes (new sticker or page mount)
   useEffect(() => {
     x.set(sticker.x);
     y.set(sticker.y);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sticker.id]);
 
-  // Preview (read-only) mode
+  // ── Preview (read-only) ──────────────────────────────────────────────────
   if (!isEditable) {
     return (
       <motion.div
-        className="absolute pointer-events-none select-none z-10"
-        style={{ x: sticker.x, y: sticker.y, rotate: sticker.rotation }}
+        className="absolute pointer-events-none select-none z-20"
+        style={{
+          top: 0,
+          left: 0,
+          x: sticker.x,
+          y: sticker.y,
+          rotate: sticker.rotation,
+        }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: sticker.scale, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 24, delay: 0.15 }}
       >
-        <span className="text-4xl leading-none block filter drop-shadow-sm">{sticker.emoji}</span>
+        <span className="text-4xl leading-none block filter drop-shadow-sm select-none">
+          {sticker.emoji}
+        </span>
       </motion.div>
     );
   }
 
+  // ── Editable ─────────────────────────────────────────────────────────────
   return (
-    // Outer wrapper: handles position via motion values + entry animation
     <motion.div
       className="absolute select-none touch-none"
       style={{
+        top: 0,
+        left: 0,
         x,
         y,
         rotate: sticker.rotation,
-        zIndex: isDragging ? 100 : isHovered ? 50 : 10,
+        zIndex: isDragging ? 100 : isHovered ? 50 : 20,
         cursor: isDragging ? "grabbing" : "grab",
       }}
-      // Entry pop animation — only fires on first mount
       initial={hasMounted.current ? false : { scale: 0, opacity: 0 }}
       animate={{ scale: sticker.scale, opacity: 1 }}
       transition={{ type: "spring", stiffness: 320, damping: 26 }}

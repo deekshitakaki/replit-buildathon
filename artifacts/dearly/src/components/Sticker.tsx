@@ -30,13 +30,13 @@ export function Sticker({ sticker, isEditable = true, paperRef }: StickerProps) 
   if (!isEditable) {
     return (
       <motion.div
-        className="absolute pointer-events-none select-none"
-        style={{ x: sticker.x, y: sticker.y, rotate: sticker.rotation, scale: sticker.scale }}
+        className="absolute pointer-events-none select-none z-10"
+        style={{ x: sticker.x, y: sticker.y, rotate: sticker.rotation }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: sticker.scale, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 240, damping: 22 }}
+        transition={{ type: "spring", stiffness: 260, damping: 24, delay: 0.15 }}
       >
-        <span className="text-4xl filter drop-shadow-sm">{sticker.emoji}</span>
+        <span className="text-4xl leading-none block filter drop-shadow-sm">{sticker.emoji}</span>
       </motion.div>
     );
   }

@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { toPng } from "html-to-image";
 import { Download, Share2, Edit2, Check } from "lucide-react";
 import { useLetterStore } from "@/store/use-letter-store";
+import { Sticker } from "@/components/Sticker";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -301,23 +302,14 @@ export default function Preview() {
                 </div>
               </div>
 
-              {/* Stickers — spring in after text */}
-              {stickers.map((sticker, i) => (
-                <motion.div
+              {/* Stickers */}
+              {stickers.map((sticker) => (
+                <Sticker
                   key={sticker.id}
-                  initial={{ scale: 0, opacity: 0, rotate: sticker.rotation - 30 }}
-                  animate={{ scale: sticker.scale, opacity: 1, rotate: sticker.rotation }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 180,
-                    damping: 16,
-                    delay: 1.4 + paragraphs.length * 0.18 + i * 0.12,
-                  }}
-                  className="absolute pointer-events-none"
-                  style={{ x: sticker.x, y: sticker.y }}
-                >
-                  <span className="text-4xl filter drop-shadow-sm">{sticker.emoji}</span>
-                </motion.div>
+                  sticker={sticker}
+                  paperRef={paperRef}
+                  isEditable={false}
+                />
               ))}
             </div>
           </motion.div>

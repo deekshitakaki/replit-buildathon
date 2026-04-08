@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { toPng } from "html-to-image";
@@ -13,7 +13,6 @@ export default function Preview() {
   const [, setLocation] = useLocation();
   const paperRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
-  const [showUI, setShowUI] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const [phase, setPhase] = useState<Phase>("envelope");
 
@@ -29,13 +28,10 @@ export default function Preview() {
   const handleOpenEnvelope = () => {
     if (phase !== "envelope") return;
     setPhase("opening");
-    // After flap fully opens, transition to letter
     setTimeout(() => setPhase("letter"), 1400);
-    // Show action buttons after text has had time to appear
-    setTimeout(() => setShowUI(true), 4000);
   };
 
-  const fontClasses: Record<string, string> = {
+  const fontClasses = useMemo<Record<string, string>>(() => ({
     greatvibes:  "font-greatvibes text-4xl leading-relaxed",
     dancing:     "font-dancing text-3xl leading-relaxed",
     sacramento:  "font-sacramento text-4xl leading-relaxed",
@@ -46,16 +42,13 @@ export default function Preview() {
     serif:       "font-serif text-xl leading-loose",
     baskerville: "font-baskerville text-lg leading-loose",
     sans:        "font-sans text-lg leading-loose",
-  };
+  }), []);
 
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
     if (!paperRef.current) return;
     setIsExporting(true);
     try {
-      const dataUrl = await toPng(paperRef.current, {
-        pixelRatio: 2,
-        skipFonts: false,
-      });
+      const dataUrl = await toPng(paperRef.current, { pixelRatio: 2, skipFonts: false });
       const a = document.createElement("a");
       a.href = dataUrl;
       a.download = "dearly-letter.png";
@@ -65,38 +58,37 @@ export default function Preview() {
     } finally {
       setIsExporting(false);
     }
-  };
+  }, []);
 
-  const handleShare = () => {
+  const handleShare = useCallback(() => {
     const state = useLetterStore.getState();
-    const dataToShare = {
+    const encoded = btoa(encodeURIComponent(JSON.stringify({
       content: state.content,
       background: state.background,
       font: state.font,
       stickers: state.stickers,
-    };
-    const encoded = btoa(encodeURIComponent(JSON.stringify(dataToShare)));
-    const origin = window.location.origin;
+    })));
     const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-    const url = `${origin}${basePath}/preview#${encoded}`;
+    const url = `${window.location.origin}${basePath}/preview#${encoded}`;
     navigator.clipboard.writeText(url).then(() => {
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 3000);
     });
-  };
+  }, []);
 
-  const paragraphs = content.split("\n");
+  const paragraphs = useMemo(() => content.split("\n"), [content]);
 
-  // Envelope paper color based on background selection
-  const envelopeColors: Record<string, { body: string; flap: string; liner: string }> = {
-    cream:    { body: "#f5ede0", flap: "#eddfc8", liner: "#fdf8f2" },
-    blush:    { body: "#f5d6db", flap: "#edccd2", liner: "#fff0f3" },
-    lavender: { body: "#dbd3f0", flap: "#cec4e8", liner: "#f5f0ff" },
-    vintage:  { body: "#e8dcc8", flap: "#ddd0b8", liner: "#fdf6e3" },
-    floral:   { body: "#f0dde2", flap: "#e8d0d6", liner: "#fdf8f2" },
-    grid:     { body: "#e8e0d5", flap: "#ddd5c8", liner: "#fdfaf7" },
-  };
-  const env = envelopeColors[background] ?? envelopeColors.cream;
+  const env = useMemo(() => {
+    const map: Record<string, { body: string; flap: string; liner: string }> = {
+      cream:    { body: "#f5ede0", flap: "#eddfc8", liner: "#fdf8f2" },
+      blush:    { body: "#f5d6db", flap: "#edccd2", liner: "#fff0f3" },
+      lavender: { body: "#dbd3f0", flap: "#cec4e8", liner: "#f5f0ff" },
+      vintage:  { body: "#e8dcc8", flap: "#ddd0b8", liner: "#fdf6e3" },
+      floral:   { body: "#f0dde2", flap: "#e8d0d6", liner: "#fdf8f2" },
+      grid:     { body: "#e8e0d5", flap: "#ddd5c8", liner: "#fdfaf7" },
+    };
+    return map[background] ?? map.cream;
+  }, [background]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
@@ -117,11 +109,11 @@ export default function Preview() {
 
       {/* ── ACTION BUTTONS ── */}
       <AnimatePresence>
-        {showUI && (
+        {phase === "letter" && (
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="absolute top-6 right-6 z-50 flex gap-2"
           >
             <Button variant="secondary" size="sm" onClick={() => setLocation("/write")} className="shadow-lg bg-white/10 text-white/80 border-white/10 hover:bg-white/20 hover:text-white backdrop-blur-sm">

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { generateId } from '@/lib/utils';
+import { decodeLetter } from '@/lib/letter-share';
 
 export type BackgroundType =
   | 'cream' | 'blush' | 'lavender' | 'vintage' | 'floral' | 'grid'
@@ -13,7 +14,9 @@ export type FontType =
 export interface Sticker {
   id: string;
   emoji: string;
+  /** Fraction of paper width (0–1), so placement survives any screen size. */
   x: number;
+  /** Fraction of paper height (0–1). */
   y: number;
   rotation: number;
   scale: number;
@@ -49,6 +52,20 @@ function shuffle<T>(arr: T[]): T[] {
 
 const jitter = (base: number, range: number) =>
   base + (Math.random() - 0.5) * range;
+
+export const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+
+/** Reference paper size the original pixel coordinates were authored against. */
+const LEGACY_PAPER = { width: 640, height: 750 };
+
+/** Older letters (and v1 share links) stored raw pixels. */
+export function normalizeLegacySticker<T extends { x: number; y: number }>(sticker: T): T {
+  return {
+    ...sticker,
+    x: clamp01(sticker.x / LEGACY_PAPER.width),
+    y: clamp01(sticker.y / LEGACY_PAPER.height),
+  };
+}
 
 // ── Mood detection ────────────────────────────────────────────────────────────
 
@@ -124,23 +141,24 @@ const MOOD_PRESETS: Record<Mood, MoodPreset> = {
   },
 };
 
-// ── Placement zones (anchored to paper top-left = 0,0) ───────────────────────
-// Paper is at least 500 px wide and 700 px tall.
+// ── Placement zones ──────────────────────────────────────────────────────────
+// Coordinates are fractions of the paper (0–1) measured from its top-left, so
+// the same arrangement holds on any screen and in any shared link.
 // Two pools: corners first, then accents — shuffled separately so variety
 // changes each click while maintaining aesthetic spread.
 
 const CORNER_ZONES = [
-  { x: 16,  y: 16,  rotation: -14, scale: 1.35 }, // top-left
-  { x: 452, y: 14,  rotation: 16,  scale: 1.25 }, // top-right
-  { x: 12,  y: 660, rotation: -20, scale: 1.20 }, // bottom-left
-  { x: 454, y: 664, rotation: 12,  scale: 1.40 }, // bottom-right
+  { x: 0.045, y: 0.030, rotation: -14, scale: 1.35 }, // top-left
+  { x: 0.855, y: 0.028, rotation: 16,  scale: 1.25 }, // top-right
+  { x: 0.040, y: 0.888, rotation: -20, scale: 1.20 }, // bottom-left
+  { x: 0.858, y: 0.892, rotation: 12,  scale: 1.40 }, // bottom-right
 ];
 
 const ACCENT_ZONES = [
-  { x: 236, y: 10,  rotation: 0,   scale: 1.10 }, // top-center
-  { x: 456, y: 340, rotation: 22,  scale: 1.15 }, // mid-right
-  { x: 10,  y: 340, rotation: -18, scale: 1.10 }, // mid-left
-  { x: 236, y: 690, rotation: 5,   scale: 1.05 }, // bottom-center
+  { x: 0.455, y: 0.022, rotation: 0,   scale: 1.10 }, // top-center
+  { x: 0.875, y: 0.455, rotation: 22,  scale: 1.15 }, // mid-right
+  { x: 0.030, y: 0.455, rotation: -18, scale: 1.10 }, // mid-left
+  { x: 0.455, y: 0.925, rotation: 5,   scale: 1.05 }, // bottom-center
 ];
 
 function pickZones(count: number) {
@@ -172,8 +190,8 @@ export const useLetterStore = create<LetterState>()(
           {
             id: generateId(),
             emoji,
-            x: 80 + Math.random() * 200,
-            y: 80 + Math.random() * 200,
+            x: 0.15 + Math.random() * 0.55,
+            y: 0.12 + Math.random() * 0.42,
             rotation: (Math.random() - 0.5) * 30,
             scale: 1 + Math.random() * 0.5,
           },
@@ -203,8 +221,8 @@ export const useLetterStore = create<LetterState>()(
         const newStickers: Sticker[] = zones.map((zone, i) => ({
           id:       generateId(),
           emoji:    shuffledEmojis[i % shuffledEmojis.length],
-          x:        jitter(zone.x, 12),
-          y:        jitter(zone.y, 12),
+          x:        clamp01(jitter(zone.x, 0.022)),
+          y:        clamp01(jitter(zone.y, 0.020)),
           rotation: jitter(zone.rotation, 7),
           scale:    jitter(zone.scale, 0.18),
         }));
@@ -213,24 +231,27 @@ export const useLetterStore = create<LetterState>()(
       }),
 
       loadFromEncodedData: (encoded: string) => {
-        try {
-          const json = decodeURIComponent(atob(encoded));
-          const data = JSON.parse(json);
-          if (data && typeof data === 'object') {
-            set({
-              content:    data.content    || '',
-              background: data.background || 'cream',
-              font:       data.font       || 'dancing',
-              stickers:   Array.isArray(data.stickers) ? data.stickers : [],
-            });
-            return true;
-          }
-        } catch (e) {
-          console.error('Failed to parse shared letter', e);
+        const data = decodeLetter(encoded);
+        if (!data) {
+          console.error('Failed to parse shared letter');
+          return false;
         }
-        return false;
+        set(data);
+        return true;
       },
     }),
-    { name: 'dearly-letter-v2' }
+    {
+      name: 'dearly-letter-v2',
+      version: 2,
+      // v1 stored sticker positions as raw pixels against an assumed paper size.
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<LetterState>;
+        if (version >= 2 || !state?.stickers) return state as LetterState;
+        return {
+          ...state,
+          stickers: state.stickers.map(normalizeLegacySticker),
+        } as LetterState;
+      },
+    }
   )
 );

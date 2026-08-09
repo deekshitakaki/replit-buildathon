@@ -7,7 +7,8 @@
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "vite preview --config vite.config.ts --host 0.0.0.0"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -43,12 +44,10 @@
     "@replit/vite-plugin-runtime-error-modal": "catalog:",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "catalog:",
-    "@tanstack/react-query": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "@workspace/api-client-react": "workspace:*",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "cmdk": "^1.1.1",
@@ -76,7 +75,7 @@
   },
   "dependencies": {
     "html-to-image": "^1.11.13",
-    "html2canvas": "^1.4.1",
+    "lz-string": "^1.5.0",
     "zustand": "^5.0.12"
   }
 }

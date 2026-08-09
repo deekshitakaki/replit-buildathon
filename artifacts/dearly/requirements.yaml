@@ -1,6 +1,7 @@
 packages:
   "framer-motion": "For page transitions, sticker dragging, and smooth reveal animations"
-  "html2canvas": "To export the digital letter as a downloadable PNG"
+  "html-to-image": "To export the digital letter as a downloadable PNG"
+  "lz-string": "To compress shareable letter URLs"
   "zustand": "For lightweight global state management (letter content, stickers, fonts)"
   "clsx": "For conditional class name merging"
   "tailwind-merge": "For conditional class name merging"
@@ -11,5 +12,5 @@ images: []
 notes:
   - "This is a purely frontend application."
   - "State is persisted to localStorage using Zustand."
-  - "URL sharing uses base64 encoded JSON in the URL hash."
+  - "URL sharing uses lz-string compressed JSON in the URL hash."
   - "Framer motion handles the drag-and-drop mechanics for stickers."

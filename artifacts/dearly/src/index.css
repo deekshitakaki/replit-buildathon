@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Parisienne&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sacramento&family=Satisfy&display=swap');
+/* Fonts are requested from index.html so they start loading before this bundle. */
 @import "tailwindcss";
 
 @theme inline {
@@ -34,17 +34,40 @@
 }
 
 :root {
+  color-scheme: light;
+
   --background: 36 60% 98%;      /* Very soft cream */
-  --foreground: 20 25% 25%;      /* Deep warm gray/brown */
-  --primary: 340 60% 75%;        /* Soft blush pink */
+  --foreground: 24 22% 18%;      /* Warm espresso — the anchor tone */
+
+  /* Interactive rose. Deep enough for white text (~5:1). */
+  --primary: 343 40% 50%;
   --primary-foreground: 0 0% 100%;
+  /* The original blush, kept for washes, rings and glows. */
+  --primary-soft: 340 60% 75%;
+
   --secondary: 30 30% 94%;       /* Slightly darker cream for panels */
   --secondary-foreground: 20 25% 30%;
   --muted: 36 20% 90%;
-  --muted-foreground: 20 15% 50%;
+  --muted-foreground: 24 14% 42%;
   --border: 30 20% 88%;
   --card: 0 0% 100%;
   --paper: 36 60% 99%;
+
+  /* Antique gold, for seals and fine detail. */
+  --gold: 36 35% 52%;
+  --gold-light: 38 55% 73%;
+
+  /* Defaults for paper-scoped vars — PaperSurface overrides these per paper. */
+  --ink: #4A3B30;
+  --ink-soft: #8A7663;
+  --accent: #9C7A45;
+  --accent-soft: #E8D9BC;
+}
+
+@theme inline {
+  --color-primary-soft: hsl(var(--primary-soft));
+  --color-gold: hsl(var(--gold));
+  --color-gold-light: hsl(var(--gold-light));
 }
 
 @layer base {
@@ -57,6 +80,71 @@
     font-family: var(--font-serif);
     @apply font-normal tracking-tight;
   }
+}
+
+/* ── Paper physicality ────────────────────────────────────────────────────── */
+
+/* Fine fibre grain. Sits above the colour layers, below the text. */
+.paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* Two horizontal folds at the thirds — a shadow with a light catch above it,
+   as though the sheet was folded into an envelope and flattened out again. */
+.paper-creases {
+  background-image:
+    linear-gradient(to bottom,
+      transparent calc(33.333% - 14px),
+      rgba(255, 255, 255, 0.34) calc(33.333% - 5px),
+      rgba(90, 60, 40, 0.085) 33.333%,
+      rgba(255, 255, 255, 0.22) calc(33.333% + 5px),
+      transparent calc(33.333% + 14px)),
+    linear-gradient(to bottom,
+      transparent calc(66.666% - 14px),
+      rgba(255, 255, 255, 0.34) calc(66.666% - 5px),
+      rgba(90, 60, 40, 0.085) 66.666%,
+      rgba(255, 255, 255, 0.22) calc(66.666% + 5px),
+      transparent calc(66.666% + 14px));
+}
+
+/* Warm light from the top-left, shadow gathering bottom-right. */
+.paper-lift {
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.55),
+    inset -1px -1px 0 rgba(120, 80, 55, 0.07),
+    inset 0 0 60px rgba(120, 80, 55, 0.045);
+}
+
+/* Corners settle slightly darker, like a sheet resting on a surface. */
+.paper-vignette {
+  background-image: radial-gradient(
+    ellipse 92% 88% at 50% 46%,
+    transparent 55%,
+    rgba(110, 75, 50, 0.06) 100%
+  );
+}
+
+/* Text written on paper picks up that paper's ink. */
+.paper-input {
+  color: var(--ink);
+  caret-color: var(--accent);
+}
+.paper-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.55;
+}
+
+/* Sweeping specular highlight used by "Make it beautiful". */
+.paper-shimmer {
+  background-image: linear-gradient(
+    104deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.62) 47%,
+    rgba(255, 245, 250, 0.9) 50%,
+    rgba(255, 255, 255, 0.62) 53%,
+    transparent 62%
+  );
+  mix-blend-mode: overlay;
 }
 
 /* Paper Background Styles */
@@ -84,10 +172,9 @@
 
 .paper-bg-floral {
   background-color: var(--color-bg-cream);
-  background-image: radial-gradient(hsl(340 50% 85%) 1.5px, transparent 1.5px), radial-gradient(hsl(340 50% 85%) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(hsl(340 50% 85% / 0.85) 1.5px, transparent 1.5px), radial-gradient(hsl(340 50% 85% / 0.85) 1.5px, transparent 1.5px);
   background-size: 32px 32px;
   background-position: 0 0, 16px 16px;
-  opacity: 0.9;
 }
 
 .paper-bg-grid {
@@ -171,13 +258,12 @@
   scrollbar-width: none;
 }
 
-/* Paper grid background fix */
-.paper-bg-grid {
-  background-color: #fdfaf7;
-  background-image: 
-    linear-gradient(rgba(180,160,140,0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(180,160,140,0.10) 1px, transparent 1px);
-  background-size: 28px 28px;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.25);
+  border-radius: 10px;
 }
 
 /* Smoother body feel */
@@ -185,7 +271,26 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Better text selection on paper */
-textarea::selection {
-  background-color: hsl(340 60% 75% / 0.25);
+/* Selection picks up the active paper's accent. */
+textarea::selection,
+.paper-surface ::selection {
+  background-color: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────────
+   Components also branch on framer's useReducedMotion so that looping and
+   staged animations are skipped outright rather than merely shortened. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

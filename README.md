@@ -1,1 +1,1 @@
-https://dearly-digital-journal--deekshita125.replit.app/
+https://dearly-psi.vercel.app/
